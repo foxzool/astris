@@ -188,8 +188,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "astris_character"
+name = "astris_actor"
 version = "0.1.0"
+dependencies = [
+ "bevy",
+]
+
+[[package]]
+name = "astris_camera"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+]
 
 [[package]]
 name = "astris_core"
@@ -207,6 +217,14 @@ dependencies = [
 
 [[package]]
 name = "astris_level"
+version = "0.1.0"
+
+[[package]]
+name = "astris_monster"
+version = "0.1.0"
+
+[[package]]
+name = "astris_player"
 version = "0.1.0"
 
 [[package]]
