@@ -188,11 +188,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "astris_character"
+version = "0.1.0"
+
+[[package]]
+name = "astris_core"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+]
+
+[[package]]
 name = "astris_game"
 version = "0.1.0"
 dependencies = [
  "bevy",
 ]
+
+[[package]]
+name = "astris_level"
+version = "0.1.0"
 
 [[package]]
 name = "async-broadcast"

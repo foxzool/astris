@@ -1,5 +1,5 @@
 [workspace]
-members = [
+members = [ "crates/astris_character", "crates/astris_core", "crates/astris_level",
     "game"
 ]
 resolver = "2"
