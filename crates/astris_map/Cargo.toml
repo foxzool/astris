@@ -1,5 +1,5 @@
 [package]
-name = "astris_level"
+name = "astris_map"
 version = "0.1.0"
 edition = "2024"
 

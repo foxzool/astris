@@ -212,20 +212,42 @@ dependencies = [
 name = "astris_game"
 version = "0.1.0"
 dependencies = [
+ "astris_actor",
+ "astris_camera",
+ "astris_map",
+ "astris_player",
  "bevy",
 ]
 
 [[package]]
 name = "astris_level"
 version = "0.1.0"
+dependencies = [
+ "bevy",
+]
+
+[[package]]
+name = "astris_map"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+]
 
 [[package]]
 name = "astris_monster"
 version = "0.1.0"
+dependencies = [
+ "bevy",
+]
 
 [[package]]
 name = "astris_player"
 version = "0.1.0"
+dependencies = [
+ "astris_actor",
+ "astris_core",
+ "bevy",
+]
 
 [[package]]
 name = "async-broadcast"

@@ -28,3 +28,8 @@ dev_native = [
 
 [dependencies]
 bevy = { workspace = true }
+
+astris_actor = { path = "../crates/astris_actor" }
+astris_camera = { path = "../crates/astris_camera" }
+astris_player = { path = "../crates/astris_player" }
+astris_map = { path = "../crates/astris_map" }

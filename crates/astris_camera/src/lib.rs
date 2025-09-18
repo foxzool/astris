@@ -51,19 +51,19 @@ fn follow_player(
     player_query: Query<&Transform, With<FollowTarget>>,
     mut cam_query: Query<&mut Transform, (With<Camera>, Without<FollowTarget>)>,
 ) {
-    if let Ok(player_tf) = player_query.single() {
-        if let Ok(mut cam_tf) = cam_query.single_mut() {
-            // 目标位置 = 玩家位置 + 偏移
-            let target_pos = player_tf.translation + config.offset;
-            let current_pos = cam_tf.translation;
+    if let Ok(player_tf) = player_query.single()
+        && let Ok(mut cam_tf) = cam_query.single_mut()
+    {
+        // 目标位置 = 玩家位置 + 偏移
+        let target_pos = player_tf.translation + config.offset;
+        let current_pos = cam_tf.translation;
 
-            // 平滑插值
-            let new_pos = current_pos.lerp(target_pos, config.smoothness * time.delta_secs());
-            cam_tf.translation = new_pos;
+        // 平滑插值
+        let new_pos = current_pos.lerp(target_pos, config.smoothness * time.delta_secs());
+        cam_tf.translation = new_pos;
 
-            // 始终看向玩家
-            cam_tf.look_at(player_tf.translation, Vec3::Y);
-        }
+        // 始终看向玩家
+        cam_tf.look_at(player_tf.translation, Vec3::Y);
     }
 }
 

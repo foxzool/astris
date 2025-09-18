@@ -16,5 +16,9 @@ fn main() {
                     ..Default::default()
                 }),
         )
+        .add_plugins(astris_actor::ActorPlugin)
+        .add_plugins(astris_camera::CameraPlugin)
+        .add_plugins(astris_player::PlayerPlugin)
+        .add_plugins(astris_map::MapPlugin)
         .run();
 }
