@@ -5,7 +5,31 @@ members = [
 resolver = "2"
 
 [workspace.dependencies]
-bevy = { version = "0.16" }
+bevy = { version = "0.16", default-features = false, features = [
+    "std",
+    "async_executor",
+    "bevy_asset",
+    "bevy_color",
+    "bevy_core_pipeline",
+    "bevy_log",
+    "bevy_pbr",
+    "bevy_render",
+    "bevy_scene",
+    "bevy_sprite",
+    "bevy_state",
+    "bevy_text",
+    "bevy_ui",
+    "bevy_window",
+    "bevy_winit",
+    "default_font",
+    "hdr",
+    "ktx2",
+    "multi_threaded",
+    "png",
+    "tonemapping_luts",
+    "x11",
+    "zstd",
+] }
 
 
 # Enable a small amount of optimization in the dev profile.
