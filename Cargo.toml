@@ -5,7 +5,7 @@ members = ["crates/astris_actor", "crates/astris_camera", "crates/astris_core", 
 resolver = "2"
 
 [workspace.dependencies]
-bevy = { version = "0.16" }
+bevy = { version = "0.17.0-rc.1" }
 
 
 # Enable a small amount of optimization in the dev profile.

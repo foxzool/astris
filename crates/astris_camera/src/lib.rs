@@ -67,7 +67,7 @@ fn follow_player(
     }
 }
 
-fn handle_zoom(mut scroll_events: EventReader<MouseWheel>, mut config: ResMut<CameraConfig>) {
+fn handle_zoom(mut scroll_events: MessageReader<MouseWheel>, mut config: ResMut<CameraConfig>) {
     for event in scroll_events.read() {
         // 滚轮向上 = 拉近，向下 = 拉远
         let zoom_change = event.y * config.zoom_speed;

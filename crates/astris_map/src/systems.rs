@@ -22,7 +22,7 @@ pub(crate) fn setup_map(
 
     // 地板：灰色平面
     commands.spawn((
-        Mesh3d(meshes.add(Plane3d::default().mesh().size(50.0, 50.0))),
+        Mesh3d(meshes.add(Plane3d::default().mesh().size(60.0, 60.0))),
         MeshMaterial3d(materials.add(Color::srgb(0.2, 0.2, 0.2))),
     ));
 
