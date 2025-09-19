@@ -1,3 +1,5 @@
+use avian3d::prelude::Collider;
+use avian3d::prelude::RigidBody;
 use bevy::prelude::*;
 
 pub(crate) fn setup_map(
@@ -17,6 +19,8 @@ pub(crate) fn setup_map(
             Mesh3d(meshes.add(Cuboid::new(1.0, 1.0, 1.0))),
             MeshMaterial3d(materials.add(Color::srgb(0.6, 0.2, 0.2))),
             Transform::from_translation(pos),
+            RigidBody::Static,
+            Collider::cuboid(1.0, 1.0, 1.0),
         ));
     }
 
@@ -24,6 +28,8 @@ pub(crate) fn setup_map(
     commands.spawn((
         Mesh3d(meshes.add(Plane3d::default().mesh().size(60.0, 60.0))),
         MeshMaterial3d(materials.add(Color::srgb(0.2, 0.2, 0.2))),
+        RigidBody::Static,
+        Collider::half_space(Vec3::Y),
     ));
 
     // 灯光
