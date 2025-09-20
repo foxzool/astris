@@ -13,3 +13,4 @@ bevy-tnua-avian3d = { workspace = true }
 
 astris_core = { path = "../astris_core" }
 astris_actor = { path = "../astris_actor" }
+astris_camera = { path = "../astris_camera" }

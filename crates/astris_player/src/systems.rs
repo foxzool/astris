@@ -1,5 +1,6 @@
 use crate::{PlayerAction, PlayerControlled};
 use astris_actor::Actor;
+use astris_camera::FollowTarget;
 use astris_core::components::{Faction, FactionKind};
 use avian3d::prelude::*;
 use bevy::prelude::*;
@@ -36,6 +37,7 @@ pub(crate) fn spawn_player(
             // By locking the rotation we can prevent this.
             LockedAxes::ROTATION_LOCKED,
             PlayerControlled,
+            FollowTarget,
             Actor,
             SceneRoot(scene),
             Faction(FactionKind::Player),
@@ -51,7 +53,6 @@ pub(crate) fn cast_fireball(
         println!("Fwoosh!");
     }
 }
-
 
 pub(crate) fn apply_controls(
     action_state: Single<(&ActionState<PlayerAction>, &mut TnuaController), With<PlayerControlled>>,
