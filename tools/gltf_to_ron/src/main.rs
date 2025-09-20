@@ -51,21 +51,92 @@ impl BoundingBox {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let mut args = env::args().skip(1);
-    let input = args
-        .next()
-        .map(PathBuf::from)
-        .ok_or("Usage: gltf_to_ron <input.gltf/glb> [output.ron]")?;
-    let output = args
-        .next()
-        .map(PathBuf::from)
-        .unwrap_or_else(|| input.with_extension("ron"));
+    let args: Vec<_> = env::args().skip(1).collect();
 
-    ensure_not_lfs_pointer(&input)?;
+    match args.as_slice() {
+        [] => {
+            let default_dir = default_assets_dir();
+            process_path(default_dir, None)?;
+        }
+        [input] => {
+            process_path(PathBuf::from(input), None)?;
+        }
+        [input, output] => {
+            process_path(PathBuf::from(input), Some(PathBuf::from(output)))?;
+        }
+        _ => {
+            return Err("Usage: gltf_to_ron [input.gltf/glb | directory] [output.ron]".into());
+        }
+    }
 
-    let (document, buffers, _images) = gltf::import(&input)?;
+    Ok(())
+}
 
-    let source = normalize_path(&input);
+fn process_path(input: PathBuf, explicit_output: Option<PathBuf>) -> Result<(), Box<dyn Error>> {
+    if input.is_dir() {
+        if explicit_output.is_some() {
+            return Err(format!(
+                "Cannot specify an explicit output file when processing a directory: {}",
+                input.display()
+            )
+            .into());
+        }
+        process_directory(&input)?;
+    } else if input.is_file() {
+        let output = explicit_output.unwrap_or_else(|| input.with_extension("ron"));
+        process_file(&input, &output)?;
+    } else {
+        return Err(format!("Input path does not exist: {}", input.display()).into());
+    }
+
+    Ok(())
+}
+
+fn process_directory(dir: &Path) -> Result<(), Box<dyn Error>> {
+    let mut gltf_files = Vec::new();
+    collect_gltf_files(dir, &mut gltf_files)?;
+    gltf_files.sort();
+
+    if gltf_files.is_empty() {
+        return Err(format!("No .gltf or .glb files were found under {}", dir.display()).into());
+    }
+
+    for file in gltf_files {
+        let output = file.with_extension("ron");
+        process_file(&file, &output)?;
+    }
+
+    Ok(())
+}
+
+fn collect_gltf_files(dir: &Path, files: &mut Vec<PathBuf>) -> Result<(), io::Error> {
+    for entry in fs::read_dir(dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        let file_type = entry.file_type()?;
+        if file_type.is_dir() {
+            collect_gltf_files(&path, files)?;
+        } else if file_type.is_file() && is_gltf_file(&path) {
+            files.push(path);
+        }
+    }
+
+    Ok(())
+}
+
+fn is_gltf_file(path: &Path) -> bool {
+    path.extension()
+        .and_then(|ext| ext.to_str())
+        .map(|ext| ext.eq_ignore_ascii_case("gltf") || ext.eq_ignore_ascii_case("glb"))
+        .unwrap_or(false)
+}
+
+fn process_file(input: &Path, output: &Path) -> Result<(), Box<dyn Error>> {
+    ensure_not_lfs_pointer(input)?;
+
+    let (document, buffers, _images) = gltf::import(input)?;
+
+    let source = normalize_path(input);
     let animations = extract_animations(&document, &buffers, &source);
     let bounding_box = extract_bounding_box(&document, &buffers)
         .ok_or("Failed to compute bounding box: no vertex positions found")?;
@@ -89,14 +160,44 @@ fn main() -> Result<(), Box<dyn Error>> {
         fs::create_dir_all(parent)?;
     }
 
-    fs::write(&output, ron_string)?;
-    println!("Wrote {}", output.display());
+    fs::write(output, ron_string)?;
+    println!("Wrote {} -> {}", input.display(), output.display());
 
     Ok(())
 }
 
+fn default_assets_dir() -> PathBuf {
+    let relative = PathBuf::from("assets");
+    if relative.is_dir() {
+        relative
+    } else {
+        let mut absolute = workspace_root();
+        absolute.push("assets");
+        absolute
+    }
+}
+
+fn workspace_root() -> PathBuf {
+    let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    path.pop();
+    path.pop();
+    path
+}
+
 fn normalize_path(path: &Path) -> String {
-    path.to_string_lossy().replace('\\', "/")
+    let canonical_path = path.canonicalize().unwrap_or_else(|_| path.to_path_buf());
+
+    let mut workspace = workspace_root();
+    workspace = workspace
+        .canonicalize()
+        .unwrap_or_else(|_| workspace.clone());
+
+    let relative = canonical_path
+        .strip_prefix(&workspace)
+        .map(|p| p.to_path_buf())
+        .unwrap_or(canonical_path);
+
+    relative.to_string_lossy().replace('\\', "/")
 }
 
 fn ensure_not_lfs_pointer(path: &Path) -> Result<(), io::Error> {
