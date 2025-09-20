@@ -120,7 +120,7 @@ fn extract_animations(document: &Document, buffers: &[Data], source: &str) -> Ve
             let name = animation
                 .name()
                 .map(|s| s.to_string())
-                .unwrap_or_else(|| format!("Animation{}", index));
+                .unwrap_or_else(|| format!("Animation{index}"));
             let duration_seconds = animation_duration(&animation, buffers);
             let resource_path = format!("{source}#Animation{index}");
 
