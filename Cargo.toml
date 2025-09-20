@@ -1,6 +1,6 @@
 [workspace]
 members = ["crates/astris_actor", "crates/astris_camera", "crates/astris_core", "crates/astris_level", "crates/astris_map", "crates/astris_monster", "crates/astris_player",
-    "game"
+    "game", "tools/gltf_to_ron"
 ]
 resolver = "2"
 
