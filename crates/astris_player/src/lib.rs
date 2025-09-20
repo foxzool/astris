@@ -18,6 +18,6 @@ impl Plugin for PlayerPlugin {
         }
 
         app.add_systems(Startup, spawn_player)
-            .add_systems(Update, (apply_controls,));
+            .add_systems(Update, (apply_controls, cast_fireball));
     }
 }
