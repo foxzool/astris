@@ -43,9 +43,9 @@ impl BoundingBox {
 
     fn include_point(&mut self, point: Vec3) {
         let array = point.to_array();
-        for i in 0..3 {
-            self.min[i] = self.min[i].min(array[i]);
-            self.max[i] = self.max[i].max(array[i]);
+        for ((min, max), component) in self.min.iter_mut().zip(self.max.iter_mut()).zip(array) {
+            *min = (*min).min(component);
+            *max = (*max).max(component);
         }
     }
 }
@@ -142,7 +142,7 @@ fn animation_duration(animation: &gltf::Animation, buffers: &[Data]) -> f32 {
                 Some(&buffers[buffer.index()])
             })
         })
-        .flat_map(|times| times)
+        .flatten()
         .fold(0.0, f32::max)
 }
 
