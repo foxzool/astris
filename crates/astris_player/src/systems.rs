@@ -8,27 +8,28 @@ use bevy_tnua::prelude::*;
 use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 use leafwing_input_manager::prelude::*;
 
-pub(crate) fn spawn_player(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
-) {
+const PLAYER_COLLIDER_RADIUS: f32 = 0.5;
+const PLAYER_COLLIDER_HALF_HEIGHT: f32 = 1.0;
+/// 来自 `assets/models/base_character/base.ron` 的包围盒最小 Y 值，
+/// 用于将模型脚底与物理碰撞体底部对齐。
+const BASE_CHARACTER_FOOT_OFFSET: f32 = 0.000_461_441;
+
+pub(crate) fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     let scene: Handle<Scene> = asset_server.load("models/base_character/base.glb#Scene0");
     // let idle_anim = asset_server.load("models/base_character/base.glb#Animation0");
 
     let _player = commands
         .spawn((
-            Mesh3d(meshes.add(Capsule3d {
-                radius: 0.5,
-                half_length: 0.5,
-            })),
-            MeshMaterial3d(materials.add(Color::from(bevy::color::palettes::css::DARK_CYAN))),
+            // Mesh3d(meshes.add(Capsule3d {
+            //     radius: 0.5,
+            //     half_length: 0.5,
+            // })),
+            // MeshMaterial3d(materials.add(Color::from(bevy::color::palettes::css::DARK_CYAN))),
             Transform::from_xyz(0.0, 2.0, 0.0),
             // The player character needs to be configured as a dynamic rigid body of the physics
             // engine.
             RigidBody::Dynamic,
-            Collider::capsule(0.5, 1.0),
+            Collider::capsule(PLAYER_COLLIDER_RADIUS, PLAYER_COLLIDER_HALF_HEIGHT),
             // This is Tnua's interface component.
             TnuaController::default(),
             // A sensor shape is not strictly necessary, but without it we'll get weird results.
@@ -39,10 +40,26 @@ pub(crate) fn spawn_player(
             PlayerControlled,
             FollowTarget,
             Actor,
-            SceneRoot(scene),
             Faction(FactionKind::Player),
+            Visibility::default(),
             PlayerControlled::default_input_map(),
         ))
+        .with_children(|parent| {
+            parent.spawn((
+                SceneRoot(scene),
+                Transform {
+                    translation: Vec3::new(
+                        0.0,
+                        -(PLAYER_COLLIDER_HALF_HEIGHT
+                            + PLAYER_COLLIDER_RADIUS
+                            + BASE_CHARACTER_FOOT_OFFSET),
+                        0.0,
+                    ),
+                    rotation: Quat::from_rotation_y(std::f32::consts::PI),
+                    ..Default::default()
+                },
+            ));
+        })
         .id();
 }
 
@@ -97,4 +114,25 @@ pub(crate) fn apply_controls(
         // 其余参数保持默认值，可按需在文档中查阅说明进行调整。
         ..Default::default()
     });
+}
+
+pub(crate) fn draw_player_gizmos(
+    mut gizmos: Gizmos,
+    query: Query<&Transform, With<PlayerControlled>>,
+) {
+    for transform in &query {
+        // 使用箭头展示默认朝向，便于确认模型前向与输入反馈一致。
+        let origin = transform.translation;
+        let forward = transform.forward();
+        gizmos.arrow(origin, origin + forward * 2.0, Color::srgb_u8(255, 106, 60));
+
+        // 在底部绘制水平圆圈，直观展示碰撞体半径位置。
+        let base_center = origin - Vec3::Y * (PLAYER_COLLIDER_HALF_HEIGHT + PLAYER_COLLIDER_RADIUS);
+        gizmos.circle(
+            Isometry3d::from_translation(base_center)
+                * Isometry3d::from_rotation(Quat::from_rotation_x(std::f32::consts::FRAC_PI_2)),
+            PLAYER_COLLIDER_RADIUS,
+            Color::srgb_u8(120, 220, 255),
+        );
+    }
 }
