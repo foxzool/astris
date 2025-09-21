@@ -17,7 +17,14 @@ impl Plugin for PlayerPlugin {
             app.add_plugins(InputManagerPlugin::<PlayerAction>::default());
         }
 
-        app.add_systems(Startup, spawn_player)
-            .add_systems(Update, (apply_controls, cast_fireball, draw_player_gizmos));
+        app.add_systems(Startup, spawn_player).add_systems(
+            Update,
+            (
+                apply_controls,
+                cast_fireball,
+                face_player_to_cursor,
+                draw_player_gizmos,
+            ),
+        );
     }
 }
