@@ -1,0 +1,41 @@
+name: Docs improvement
+description: Request updates or additions to documentation.
+title: "[Docs]: "
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        文档对于分享知识至关重要，请提供足够的背景信息，便于我们更新内容。
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前请确认
+      options:
+        - label: 我已搜索现有 issues 和文档，确认没有相关说明。
+          required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 影响范围
+      description: 指出需要更新的文档位置或主题。
+      placeholder: 例如 README、教程章节、API 文档等。
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: 具体内容
+      description: 描述需要补充、修正或删除的内容，并说明原因。
+      placeholder: 详细说明当前文档的缺失或问题。
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: 参考资料
+      description: 提供相关链接、截图或其他支持信息。
+      placeholder: 可选，但越多越好。
+    validations:
+      required: false

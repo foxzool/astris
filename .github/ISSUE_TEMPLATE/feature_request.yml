@@ -1,0 +1,49 @@
+name: Feature request
+description: Suggest a new feature or improvement for Astris.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提出想法！请描述期望功能及其价值，便于评估与规划。
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前请确认
+      options:
+        - label: 我已搜索现有 issues，确认没有重复建议。
+          required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 功能概述
+      description: 简要说明你希望新增或改进的内容。
+      placeholder: 我希望……
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: 背景与动机
+      description: 为什么需要此功能？它解决了什么问题？
+      placeholder: 介绍痛点或目标用户场景。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 可能的实现方案
+      description: 分享任何实现思路、相关资料或设计草稿。
+      placeholder: 如果你有建议的实现方式，请在此说明。
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案与附加信息
+      description: 列出你考虑过的其他方案或补充信息。
+      placeholder: 还有什么我们需要知道的吗？
+    validations:
+      required: false

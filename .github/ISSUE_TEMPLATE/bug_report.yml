@@ -1,0 +1,70 @@
+name: Bug report
+description: Report a reproducible problem in Astris.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈问题！请尽量提供完整信息，帮助我们定位并复现。
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前请确认
+      options:
+        - label: 我已搜索现有 issues，确认没有重复问题。
+          required: true
+        - label: 我在最新版（main 分支）或最近的发布版本上复现过此问题。
+          required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 简要描述
+      description: 简要说明遇到的问题及其影响。
+      placeholder: 描述问题的概况……
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: 复现步骤
+      description: 清晰列出如何复现问题的步骤。
+      placeholder: |
+        1. …
+        2. …
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为
+      description: 描述你期望发生的结果。
+      placeholder: 应该发生什么？
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 描述实际发生的结果，并附上必要的截图或日志。
+      placeholder: 实际发生了什么？
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本信息
+      description: 请提供 Astris 版本、平台（OS/架构）与运行特性（如 dev_native）。
+      placeholder: 例如：main (commit abc123)、Windows 11、dev_native
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 附加上下文
+      description: 其他信息、日志、崩溃堆栈等。
+      placeholder: 如有更多线索，请在此补充。
+    validations:
+      required: false
