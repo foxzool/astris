@@ -7,64 +7,64 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢反馈问题！请尽量提供完整信息，帮助我们定位并复现。
+        感谢反馈问题！请尽量提供完整信息，帮助我们定位并复现。 / Thanks for reporting the issue! Please share as much detail as possible so we can identify and reproduce it.
   - type: checkboxes
     id: checks
     attributes:
-      label: 提交前请确认
+      label: 提交前请确认 / Before submitting, please confirm
       options:
-        - label: 我已搜索现有 issues，确认没有重复问题。
+        - label: 我已搜索现有 issues，确认没有重复问题。 / I have searched existing issues and confirmed this is not a duplicate.
           required: true
-        - label: 我在最新版（main 分支）或最近的发布版本上复现过此问题。
+        - label: 我在最新版（main 分支）或最近的发布版本上复现过此问题。 / I have reproduced this issue on the latest main branch or recent release.
           required: true
   - type: textarea
     id: summary
     attributes:
-      label: 简要描述
-      description: 简要说明遇到的问题及其影响。
-      placeholder: 描述问题的概况……
+      label: 简要描述 / Short summary
+      description: 简要说明遇到的问题及其影响。 / Provide a concise description of the issue and its impact.
+      placeholder: 描述问题的概况…… / Outline the problem at a high level…
     validations:
       required: true
   - type: textarea
     id: reproduction_steps
     attributes:
-      label: 复现步骤
-      description: 清晰列出如何复现问题的步骤。
+      label: 复现步骤 / Steps to reproduce
+      description: 清晰列出如何复现问题的步骤。 / List clear steps so we can reproduce the issue.
       placeholder: |
-        1. …
-        2. …
-        3. …
+        1. … / Step 1: …
+        2. … / Step 2: …
+        3. … / Step 3: …
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: 预期行为
-      description: 描述你期望发生的结果。
-      placeholder: 应该发生什么？
+      label: 预期行为 / Expected behavior
+      description: 描述你期望发生的结果。 / Describe what you expected to happen.
+      placeholder: 应该发生什么？ / What should happen?
     validations:
       required: true
   - type: textarea
     id: actual
     attributes:
-      label: 实际行为
-      description: 描述实际发生的结果，并附上必要的截图或日志。
-      placeholder: 实际发生了什么？
+      label: 实际行为 / Actual behavior
+      description: 描述实际发生的结果，并附上必要的截图或日志。 / Share what actually happened and attach screenshots or logs if needed.
+      placeholder: 实际发生了什么？ / What really happened?
     validations:
       required: true
   - type: input
     id: version
     attributes:
-      label: 版本信息
-      description: 请提供 Astris 版本、平台（OS/架构）与运行特性（如 dev_native）。
-      placeholder: 例如：main (commit abc123)、Windows 11、dev_native
+      label: 版本信息 / Version details
+      description: 请提供 Astris 版本、平台（OS/架构）与运行特性（如 dev_native）。 / Provide the Astris version, platform (OS/architecture), and runtime features (e.g., dev_native).
+      placeholder: "例如：main (commit abc123)、Windows 11、dev_native / e.g. main (commit abc123), Windows 11, dev_native"
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: 附加上下文
-      description: 其他信息、日志、崩溃堆栈等。
-      placeholder: 如有更多线索，请在此补充。
+      label: 附加上下文 / Additional context
+      description: 其他信息、日志、崩溃堆栈等。 / Any other details, logs, or crash stacks.
+      placeholder: 如有更多线索，请在此补充。 / Share any further clues here.
     validations:
       required: false

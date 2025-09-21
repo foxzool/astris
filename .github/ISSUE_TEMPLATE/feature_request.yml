@@ -7,43 +7,43 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢提出想法！请描述期望功能及其价值，便于评估与规划。
+        感谢提出想法！请描述期望功能及其价值，便于评估与规划。 / Thanks for sharing your idea! Describe the desired feature and its value so we can evaluate and plan it.
   - type: checkboxes
     id: checks
     attributes:
-      label: 提交前请确认
+      label: 提交前请确认 / Before submitting, please confirm
       options:
-        - label: 我已搜索现有 issues，确认没有重复建议。
+        - label: 我已搜索现有 issues，确认没有重复建议。 / I have searched existing issues and confirmed this suggestion is not a duplicate.
           required: true
   - type: textarea
     id: summary
     attributes:
-      label: 功能概述
-      description: 简要说明你希望新增或改进的内容。
-      placeholder: 我希望……
+      label: 功能概述 / Feature summary
+      description: 简要说明你希望新增或改进的内容。 / Provide a brief overview of what you want added or improved.
+      placeholder: 我希望…… / I would like…
     validations:
       required: true
   - type: textarea
     id: motivation
     attributes:
-      label: 背景与动机
-      description: 为什么需要此功能？它解决了什么问题？
-      placeholder: 介绍痛点或目标用户场景。
+      label: 背景与动机 / Background and motivation
+      description: 为什么需要此功能？它解决了什么问题？ / Explain why this feature is needed and which problems it solves.
+      placeholder: 介绍痛点或目标用户场景。 / Describe the pain points or target user scenarios.
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: 可能的实现方案
-      description: 分享任何实现思路、相关资料或设计草稿。
-      placeholder: 如果你有建议的实现方式，请在此说明。
+      label: 可能的实现方案 / Possible solution
+      description: 分享任何实现思路、相关资料或设计草稿。 / Share implementation ideas, references, or draft designs.
+      placeholder: 如果你有建议的实现方式，请在此说明。 / If you have suggestions for implementation, describe them here.
     validations:
       required: false
   - type: textarea
     id: alternatives
     attributes:
-      label: 替代方案与附加信息
-      description: 列出你考虑过的其他方案或补充信息。
-      placeholder: 还有什么我们需要知道的吗？
+      label: 替代方案与附加信息 / Alternatives & additional context
+      description: 列出你考虑过的其他方案或补充信息。 / List any alternative approaches or extra details.
+      placeholder: 还有什么我们需要知道的吗？ / Anything else we should know?
     validations:
       required: false
