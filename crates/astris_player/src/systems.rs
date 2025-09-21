@@ -4,6 +4,8 @@ use astris_camera::FollowTarget;
 use astris_core::components::{Faction, FactionKind};
 use avian3d::prelude::*;
 use bevy::prelude::*;
+use bevy::render::camera::Camera;
+use bevy::window::PrimaryWindow;
 use bevy_tnua::prelude::*;
 use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 use leafwing_input_manager::prelude::*;
@@ -71,6 +73,70 @@ pub(crate) fn cast_fireball(
     }
 }
 
+/// 将角色朝向设置为鼠标在地面落点的方向。
+pub(crate) fn face_player_to_cursor(
+    windows: Query<&Window, With<PrimaryWindow>>,
+    camera_query: Query<(&Camera, &GlobalTransform)>,
+    mut player_query: Query<(&mut Transform, &GlobalTransform), With<PlayerControlled>>,
+) {
+    let Ok(window) = windows.single() else {
+        return;
+    };
+    let Some(cursor_position) = window.cursor_position() else {
+        return;
+    };
+
+    let mut chosen_camera: Option<(&Camera, &GlobalTransform)> = None;
+    for (camera, transform) in camera_query.iter() {
+        if camera.is_active {
+            chosen_camera = Some((camera, transform));
+            break;
+        } else if chosen_camera.is_none() {
+            chosen_camera = Some((camera, transform));
+        }
+    }
+
+    let Some((camera, camera_transform)) = chosen_camera else {
+        return;
+    };
+
+    let ray = match camera.viewport_to_world(camera_transform, cursor_position) {
+        Ok(ray) => ray,
+        Err(_) => return,
+    };
+
+    let Ok((mut player_transform, player_global)) = player_query.single_mut() else {
+        return;
+    };
+
+    let player_translation = player_global.translation();
+    let foot_plane_y = player_translation.y
+        - (PLAYER_COLLIDER_HALF_HEIGHT + PLAYER_COLLIDER_RADIUS + BASE_CHARACTER_FOOT_OFFSET);
+    let origin = ray.origin;
+    let direction = Vec3::from(ray.direction);
+    let direction_y = direction.y;
+
+    if direction_y.abs() <= 1e-5 {
+        return;
+    }
+
+    let t = (foot_plane_y - origin.y) / direction_y;
+    if t <= 0.0 {
+        return;
+    }
+
+    let hit_position = origin + direction * t;
+    let mut look_direction = hit_position - player_translation;
+    look_direction.y = 0.0;
+
+    if look_direction.length_squared() <= 1e-4 {
+        return;
+    }
+
+    let yaw = look_direction.x.atan2(look_direction.z);
+    player_transform.rotation = Quat::from_rotation_y(yaw);
+}
+
 pub(crate) fn apply_controls(
     action_state: Single<(&ActionState<PlayerAction>, &mut TnuaController), With<PlayerControlled>>,
     camera_query: Query<&Transform, With<Camera>>,
@@ -127,7 +193,11 @@ pub(crate) fn draw_player_gizmos(
         gizmos.arrow(origin, origin + forward * 2.0, Color::srgb_u8(255, 106, 60));
 
         // 在底部绘制水平圆圈，直观展示碰撞体半径位置。
-        let base_center = origin - Vec3::Y * (PLAYER_COLLIDER_HALF_HEIGHT + PLAYER_COLLIDER_RADIUS);
+        let base_center = origin
+            - Vec3::Y
+                * (PLAYER_COLLIDER_HALF_HEIGHT
+                    + PLAYER_COLLIDER_RADIUS
+                    + BASE_CHARACTER_FOOT_OFFSET);
         gizmos.circle(
             Isometry3d::from_translation(base_center)
                 * Isometry3d::from_rotation(Quat::from_rotation_x(std::f32::consts::FRAC_PI_2)),
