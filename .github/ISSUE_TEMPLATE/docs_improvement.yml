@@ -7,35 +7,35 @@ body:
   - type: markdown
     attributes:
       value: |
-        文档对于分享知识至关重要，请提供足够的背景信息，便于我们更新内容。
+        文档对于分享知识至关重要，请提供足够的背景信息，便于我们更新内容。 / Documentation is vital for sharing knowledge—please give enough context so we can update it effectively.
   - type: checkboxes
     id: checks
     attributes:
-      label: 提交前请确认
+      label: 提交前请确认 / Before submitting, please confirm
       options:
-        - label: 我已搜索现有 issues 和文档，确认没有相关说明。
+        - label: 我已搜索现有 issues 和文档，确认没有相关说明。 / I have searched existing issues and docs to ensure this isn't already covered.
           required: true
   - type: textarea
     id: scope
     attributes:
-      label: 影响范围
-      description: 指出需要更新的文档位置或主题。
-      placeholder: 例如 README、教程章节、API 文档等。
+      label: 影响范围 / Scope of impact
+      description: 指出需要更新的文档位置或主题。 / Specify which documentation page or topic needs updates.
+      placeholder: 例如 README、教程章节、API 文档等。 / e.g. README, tutorial section, API docs, etc.
     validations:
       required: true
   - type: textarea
     id: details
     attributes:
-      label: 具体内容
-      description: 描述需要补充、修正或删除的内容，并说明原因。
-      placeholder: 详细说明当前文档的缺失或问题。
+      label: 具体内容 / Details
+      description: 描述需要补充、修正或删除的内容，并说明原因。 / Describe what should be added, fixed, or removed, and why.
+      placeholder: 详细说明当前文档的缺失或问题。 / Explain the current gaps or issues in detail.
     validations:
       required: true
   - type: textarea
     id: references
     attributes:
-      label: 参考资料
-      description: 提供相关链接、截图或其他支持信息。
-      placeholder: 可选，但越多越好。
+      label: 参考资料 / References
+      description: 提供相关链接、截图或其他支持信息。 / Share relevant links, screenshots, or other supporting info.
+      placeholder: 可选，但越多越好。 / Optional but the more the better.
     validations:
       required: false

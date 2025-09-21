@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
     url: https://github.com/astris-rs/astris/security/policy
-    about: 如果你发现安全问题，请按安全策略私下报告。
+    about: 如果你发现安全问题，请按安全策略私下报告。 / If you discover a security issue, please report it privately following our security policy.
