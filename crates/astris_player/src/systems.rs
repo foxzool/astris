@@ -4,7 +4,6 @@ use astris_camera::FollowTarget;
 use astris_core::components::{Faction, FactionKind};
 use avian3d::prelude::*;
 use bevy::prelude::*;
-use bevy::render::camera::Camera;
 use bevy::window::PrimaryWindow;
 use bevy_tnua::prelude::*;
 use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
